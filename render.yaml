@@ -1,0 +1,21 @@
+# Render.com 一键部署配置
+# 部署步骤：
+#   1. 登录 https://render.com （可用 GitHub 账号）
+#   2. New -> Blueprint -> 连仓库 / 或 New -> Web Service -> 上传本目录
+#   3. 选择本 render.yaml，或手动设置：Runtime=Node、Build=echo ok、Start=node sync-server.js
+#   4. 在 Environment 里添加环境变量 SYNC_TOKEN（自定义一个强令牌字符串）
+#   5. 部署完成后会得到 https://xxxx.onrender.com ，前端「云同步地址」填 https://xxxx.onrender.com/sync
+services:
+  - type: web
+    name: xiangjie-sync
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: "echo build-ok"
+    startCommand: "node sync-server.js"
+    healthCheckPath: "/"
+    envVars:
+      - key: SYNC_TOKEN
+        sync: false
+      - key: SYNC_SLOT
+        value: "1"
